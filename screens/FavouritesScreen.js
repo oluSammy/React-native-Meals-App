@@ -1,20 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import MealList from "../Components/MealList";
+import { MEALS } from "../data/dummy-data";
 
-const FavouritesScreen = () => {
+const FavouritesScreen = ({ navigation }) => {
+  const favMeals = MEALS.filter((meal) => meal.id === "m1" || meal.id === "m2");
+
   return (
-    <View style={styles.screen}>
-      <Text>The Categories Screen</Text>
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <MealList listData={favMeals} navigation={navigation} />
+    </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default FavouritesScreen;

@@ -1,10 +1,10 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+// import { StyleSheet, Text, View } from "react-native";
 import { enableScreens } from "react-native-screens";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
-import MealsNavigator from "./navigation/MealsNavigator";
+import TabNavigation from "./navigation/index";
+// AndroidNav
 
 enableScreens();
 
@@ -26,5 +26,5 @@ export default function App() {
         onError={() => console.log("error")}
       />
     );
-  return <MealsNavigator />;
+  return <TabNavigation />;
 }

@@ -1,6 +1,8 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
-import { CATEGORIES } from "../data/dummy-data";
+import { View, Text, StyleSheet, Button, FlatList } from "react-native";
+import { CATEGORIES, MEALS } from "../data/dummy-data";
+import MealItem from "../Components/MealItem";
+import MealList from "../Components/MealList";
 
 const CategoryMealScreen = ({ navigation, route }) => {
   const { id } = route.params;
@@ -10,29 +12,13 @@ const CategoryMealScreen = ({ navigation, route }) => {
     navigation.setOptions({
       title: item.title,
     });
-
   }, []);
 
-
-  return (
-    <View style={styles.screen}>
-      <Text>The Category Meal Screen {id}</Text>
-      <Button
-        title="Go to Meal Detail"
-        onPress={() => {
-          navigation.navigate("MealDetail");
-        }}
-      />
-    </View>
+  const displayedMeal = MEALS.filter(
+    (meal) => meal.categoryIds.indexOf(id) >= 0
   );
-};
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
+  return <MealList listData={displayedMeal} navigation={navigation} />;
+};
 
 export default CategoryMealScreen;
