@@ -10,6 +10,8 @@ import {
   Platform,
 } from "react-native";
 import Colors from "../constants/colors";
+import { useDispatch } from "react-redux";
+import { setFilters } from "../store/actions/meals";
 
 const FilterSwitch = ({ label, state, onChange }) => {
   const isAndroid = Platform.OS === "android";
@@ -31,7 +33,19 @@ const FilterScreen = ({ navigation }) => {
   const [isLactoseFree, setIsLactoseFree] = useState(false);
   const [isVegetarian, setIsVegetarian] = useState(false);
   const [isVegan, setIsVegan] = useState(false);
-  const isAndroid = Platform.OS === "android";
+
+  const dispatch = useDispatch();
+
+  const saveFilter = () => {
+    dispatch(
+      setFilters({
+        glutenFree: isGlutenFree,
+        lactoseFree: isVegetarian,
+        vegetarian: isVegetarian,
+        vegan: isVegan,
+      })
+    );
+  };
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -40,7 +54,7 @@ const FilterScreen = ({ navigation }) => {
           <Item
             title="save"
             iconName="ios-save-outline"
-            onPress={() => console.log(isLactoseFree)}
+            onPress={saveFilter}
           />
         </HeaderButtons>
       ),

@@ -1,16 +1,34 @@
 import React from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { SafeAreaView, Text, View, StyleSheet } from "react-native";
 import MealList from "../Components/MealList";
-import { MEALS } from "../data/dummy-data";
+import { useSelector } from "react-redux";
 
 const FavouritesScreen = ({ navigation }) => {
-  const favMeals = MEALS.filter((meal) => meal.id === "m1" || meal.id === "m2");
+  const favMeals = useSelector((state) => state.meals.favoriteMeals);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <MealList listData={favMeals} navigation={navigation} />
+      {favMeals.length > 0 ? (
+        <MealList listData={favMeals} navigation={navigation} />
+      ) : (
+        <View style={styles.screen}>
+          <Text style={styles.txt}>Meals you like will appear here</Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  txt: {
+    fontSize: 20,
+    fontFamily: "open-sans",
+  },
+});
 
 export default FavouritesScreen;

@@ -4,9 +4,17 @@ import { enableScreens } from "react-native-screens";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
 import TabNavigation from "./navigation/index";
-// AndroidNav
+import { createStore, combineReducers } from "redux";
+import mealsReducer from "./store/reducers/meals";
+import { Provider } from "react-redux";
 
 enableScreens();
+
+const rootReducer = combineReducers({
+  meals: mealsReducer,
+});
+
+const store = createStore(rootReducer);
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -26,5 +34,9 @@ export default function App() {
         onError={() => console.log("error")}
       />
     );
-  return <TabNavigation />;
+  return (
+    <Provider store={store}>
+      <TabNavigation />
+    </Provider>
+  );
 }

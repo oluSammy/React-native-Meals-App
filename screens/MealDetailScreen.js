@@ -1,7 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderBtn from "../Components/HeaderButton";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleFaves } from "../store/actions/meals";
 
 const ListItem = (props) => {
   return (
@@ -13,8 +22,15 @@ const ListItem = (props) => {
 
 const MealDetailScreen = ({ route, navigation }) => {
   const { meal } = route.params;
+  const isFaved = useSelector((state) =>
+    state.meals.favoriteMeals.some((item) => item.id === meal.id)
+  );
 
-  // console.log(meal)
+  const dispatch = useDispatch();
+
+  const toggleFaveHandler = () => {
+    dispatch(toggleFaves(meal.id));
+  };
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -23,13 +39,13 @@ const MealDetailScreen = ({ route, navigation }) => {
         <HeaderButtons HeaderButtonComponent={CustomHeaderBtn}>
           <Item
             title="search"
-            iconName="ios-star"
-            onPress={() => console.log("Mark as Fave")}
+            iconName={isFaved ? "ios-star" : "ios-star-outline"}
+            onPress={toggleFaveHandler}
           />
         </HeaderButtons>
       ),
     });
-  }, [navigation]);
+  }, [navigation, isFaved]);
 
   return (
     <ScrollView>
@@ -39,7 +55,10 @@ const MealDetailScreen = ({ route, navigation }) => {
         <Text>{meal.complexity}</Text>
         <Text>{meal.affordability}</Text>
       </View>
-      <Text style={styles.titleText}>Ingredients</Text>
+
+      <TouchableOpacity>
+        <Text style={styles.titleText}>Ingredients</Text>
+      </TouchableOpacity>
       {meal.ingredients.map((ing, idx) => (
         <ListItem>
           <Text key={idx}>{ing}</Text>
